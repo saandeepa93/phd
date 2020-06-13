@@ -16,8 +16,8 @@ the following tasks.*
 ## 2. Other uses
 
 1. Can be extended to engagement/attention estimation
-2. Some of the references already incorporate the zero-training deep-fake video
-   generation; my approach intended to be applicable to deep fake detection, too
+2. Some of the references already incorporate the unsupervised deep-fake video
+   generation; my approach intended to be applicable to deep fake detection, too.
 
 ## 3. Formulation
 
@@ -99,7 +99,7 @@ $$
    embarrassment, etc) [[3](#gaze1)]
 4. I intend to focus a majority of my research efforts on de-expression since
    little literature exists [[2](#res)] and there is considerable scope for
-   investigation towards a zero-training de-expression network [[1](#fs)]
+   investigation towards a unsupervised de-expression network [[1](#fs)]
 
 ## 5. Queries
 
