@@ -5,7 +5,8 @@
 |[Monkey-Net](http://openaccess.thecvf.com/content_CVPR_2019/papers/Siarohin_Animating_Arbitrary_Objects_via_Deep_Motion_Transfer_CVPR_2019_paper.pdf)|Image Animation(Seminal paper) |
 | [Rapid object detection](https://www.merl.com/publications/docs/TR2004-043.pdf) | Haar-like features for face recognition |
 | [Recognition of digits in hydrographic maps](https://ieeexplore.ieee.org/document/588025) | Binary vs topographical analysis |
-| [A morphable model for synthesis of 3d faces](https://gravis.dmi.unibas.ch/publications/Sigg99/morphmod2.pdf)| 3D face modelling before GAN
+| [A morphable model for synthesis of 3d faces](https://gravis.dmi.unibas.ch/publications/Sigg99/morphmod2.pdf)| 3D face modelling before GAN |
+| [Generating 3D Views of Facial Expressions From FrontalFace Video Based on Topographic Analysis](https://dl.acm.org/doi/pdf/10.1145/1027527.1027611) | same as title |
 
 
 

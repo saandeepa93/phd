@@ -46,4 +46,8 @@ $$
 
 * Each identified keypoint corresponds to a location that is locally rigid in the image. This way, we can formulate a transformation/warping function to align the encoded features
 
+### **Related papers**
+
+*
+
 

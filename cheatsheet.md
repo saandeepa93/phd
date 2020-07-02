@@ -29,7 +29,7 @@ docker run -it --rm --name openface algebr/openface
 4. run a file to extract features
 
 ```
-./build/bin/FeatureExtraction -f filename
+./build/bin/FaceLandmarkImg -f filename
  ```
 
  5. Copy the files to local from docker
