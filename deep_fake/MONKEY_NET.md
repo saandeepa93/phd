@@ -42,6 +42,10 @@ $$
 
 * In Unet architecture, interpolate has been used to increase the size of the image and the unet concat technique has been used to concatenate the feature size.
 
+* Use the $\textit{Visualizer.draw\_video\_with\_kp()}$ method of the $\textbf{logger.py}$ file to visualize the keypoints. The arguments should be of the size.\
+$\textbf{Video file}$: (32, 64, 64, 3)\
+$\textbf{kp\_array}$: (32, 2, 10, 2)
+
 ### **Assumptions**
 
 * Each identified keypoint corresponds to a location that is locally rigid in the image. This way, we can formulate a transformation/warping function to align the encoded features
