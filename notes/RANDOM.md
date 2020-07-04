@@ -35,10 +35,11 @@ candidate solutions. This does not require any gradient information i.e. does no
 ## Intractable density functions
 This can be explained using the problem formulation of variational auto-encoders. Suppose, we want to maximize the likelihood of an image x, then it is given by,
 $$
-  p(x) = \int p_{\theta}(z)p_{\theta}(x|z)
+  p(x) = \int p_{\theta}(z)p_{\theta}(x|z)dz
 $$
 
-where $z$ denotes the latent representation of the image $x$. As the size of the image grows, the dimensionality of the observation and the latent variable and become quite large, hence intractable. Read [this](http://akosiorek.github.io/ml/2018/03/14/what_is_wrong_with_vaes.html) and to understand why $p(z|x)$ is intractable, Read [this](https://medium.com/retina-ai-health-inc/variational-inference-derivation-of-the-variational-autoencoder-vae-loss-function-a-true-story-3543a3dc67ee) for more details.
+where $z$ denotes the latent representation of the image $x$. $z$ is an infinite
+space, hence marginal integration above makes it intractable. Read [this](http://akosiorek.github.io/ml/2018/03/14/what_is_wrong_with_vaes.html) and to understand why $p(z|x)$ is intractable, Read [this](https://medium.com/retina-ai-health-inc/variational-inference-derivation-of-the-variational-autoencoder-vae-loss-function-a-true-story-3543a3dc67ee) for more details.
 
 ## Derivation of Loss of VAEs
 VAEs are defined by an encoder-deccoder approach to generate arbitrary images. They are based on maximizing the likelihood of the generated images. Let $p_\theta(x)$ be the likelihood of the image, then
