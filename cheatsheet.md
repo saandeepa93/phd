@@ -22,9 +22,9 @@ docker images -a
 docker run -it --rm --name openface algebr/openface
 ```
 
-*-it*: interactive\
-*--rm*: remove instance after killing the process\
-*--name*: name of the image file manually assigned\
+* `-it` interactive
+* `--rm` remove instance after killing the process
+* `--name` name of the image file manually assigned
 
 4. run a file to extract features
 
@@ -37,6 +37,6 @@ docker run -it --rm --name openface algebr/openface
  docker cp openface:/home/openface-build/processed ~/Projects/
  ```
 
- ## **Pytorch**
+## **Pytorch**
 
- 1. To reshape the pytorch tensor. DONOT convert the pytorch to numpy and then reshape. Instead, reshape with $\textit{permute}$ and then convert to numpy if required. Doing the former messes up the data representation.
+ 1. To reshape the pytorch tensor. DONOT convert the pytorch to numpy and then reshape. Instead, reshape with `permute` and then convert to numpy if required. Doing the former messes up the data representation.
