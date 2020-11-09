@@ -41,6 +41,21 @@ $$
 where $z$ denotes the latent representation of the image $x$. $z$ is an infinite
 space, hence marginal integration above makes it intractable. Read [this](http://akosiorek.github.io/ml/2018/03/14/what_is_wrong_with_vaes.html) and to understand why $p(z|x)$ is intractable, Read [this](https://medium.com/retina-ai-health-inc/variational-inference-derivation-of-the-variational-autoencoder-vae-loss-function-a-true-story-3543a3dc67ee) for more details.
 
+Basically, according to Bayes' theorem:
+$$
+p_\theta(z|x) = \frac{p_\theta(x|z) p_\theta(z)}{p_\theta(x)}
+$$
+
+To get the denominator term $p_\theta(x)$, we use the joint probability formula for continuous variables.
+$$
+\begin{aligned}
+p_\theta(x) &= \int p_\theta(x, z)dz\\
+            &=\int p_\theta(x|z) p_\theta(z) dz
+\end{aligned}
+$$
+
+As the dimension of $z$ increases, calculating integrals becomes more and more complex and any dimension $d$ of $z \geq 4$ is impossible to calculate. That is the reason the normalizing term followed by the posterior distribution becomes $\textbf{intractable}$ to compute.
+
 ## 6. *Derivation of Loss of VAEs*
 VAEs are defined by an encoder-deccoder approach to generate arbitrary images. They are based on maximizing the likelihood of the generated images. Let $p_\theta(x)$ be the likelihood of the image, then
 
@@ -103,4 +118,111 @@ Mahalonobis distance can also be defined as dissimilarity measure between 2 rand
 $$
 d_M(\mathbf{x}, \mathbf{y}) = \sqrt{(\mathbf{x} - \mathbf{y})^T S^{-1} (\mathbf{x} - \mathbf{y})}
 $$
+
+## 9. *Poisson image editing* ([link](http://www.ctralie.com/Teaching/PoissonImageEditing/))
+Suppose, the source image is denoted by $\mathbf{S}$ and the image to be pasted is denoted by $\mathbf{B}$, then $\mathbf{B}$ needs to be modified in such a way that it blends smoothly in $\mathbf{S}$. This modified image of $\mathbf{B}$ is denoted by $\mathbf{H}$.
+
+<img src="./artifacts/Screen Shot 2020-09-07 at 12.43.41 PM.png">
+
+Basically, we want the gradient information inside $\Omega$ to be the same in for both $\mathbf{B}$ and $\mathbf{H}$. The gradient of B is given by
+
+$$
+\nabla{B(x, y)} = 4B(x, y) - B(x-1, y) - B(x+1, y) - B(x, y-1) - B(x, y+1)
+$$
+
+We also want the boundary of $\mathbf{B}$ to be the same pixel value as boundary of $\mathbf{H}$. This is given by
+$$
+H_{(x, y)} = S_{(x, y)} \forall (x, y) \in \delta\Omega
+$$
+
+The 2 equations can be combined as
+$$
+NH(x, y) - \sum_{((dx, dy) + (x, y))\in \Omega} H(x+dx, y+dy) - \sum_{((dx, dy) + (x, y))\in \delta\Omega} A(x+dx, y+dy) = \sum_{((dx, dy) + (x, y))\in \delta\Omega \cup \Omega}(B(x+dx, y+dy) - B(x, y))
+$$
+
+
+## **10. Cosine similarity and Gram matrix**
+The cosine similarity between 2 vectors $\mathbf{A}$ and $\mathbf{B}$ is given by :
+
+$$
+similarity = \cos\theta = \frac{\mathbf{A}.\mathbf{B}}{||\mathbf{A}||||\mathbf{B}||} =  \frac{\mathbf{A}.\mathbf{B}}{\sqrt{\sum_{i=1}^{n}A_i^{2}}\sqrt{\sum_{i=1}^{n}B_{i}^2}}
+$$
+
+If the vectors are facing opposite direction, $\theta=180^{\degree}$ and $\cos\theta=-1$. Similarly, if the vectors are in the same direction, $\theta=0^{\degree}$ and $\cos\theta=1$.
+The dot product of vector $\mathbf{A}$ and $\mathbf{B}$ is given by:
+$$
+\mathbf{A}.\mathbf{B} = ||\mathbf{A}||.||\mathbf{B}||\cos\theta
+$$
+
+A low dot product value indicates low similarity and high dot product indicates high similarity.
+
+## **11. Why do we differentiate a function wrt 0 to find extrema.**
+
+* A derivative defines the slope of the graph plotted by the function. And only during peaks or minimum is the slope of the graph horizontal i.e. 0. Since our interest is to find this extrema, we differentiate wrt 0.
+
+## **12. Probability**
+### **12.1 Joint probability**
+* Joint probability is defined as the probability of 2 events occuring together.
+$$
+P(6\;and\;red) = p(6) * p(red)
+$$
+
+### **12.2 Conditional probability**
+* Probability of an event based on the occurence of previous event.
+  + P(A) is that it will rain today. It has probability of 0.3
+  + P(B) is probability that you need to go out => 0.5
+
+  $$
+  P(A|B) = \frac{0.3 * 0.5}{0.3} = 50\%
+  $$
+
+## **13. Flow based Generative models**
+
+Consider we have a $d$ dimensional dataset $\mathcal{D}=\{x_1, x_2, x_3, ..., x_d\}$. We can plot the probability distribution from a given sample, but we would like to know the the probability density function from which these points are sampled.
+
+Example:\
+Suppose we have set of datapoints $\mathcal{S}={s_1, s_2...s_n}$. When we plot the datapoints, we observe a normal or close to normal distribution. But to sample more points from using this distribution, we want to know the density function which created this plot. In this case, our goal woul be to approximate/calculate the density function
+$$
+p(\mathcal{D}| \mu, \sigma) = \frac{1}{\sigma \sqrt{2 \pi}} exp(-\frac{1}{2}(\frac{(x - \mu)^2}{\sigma^2}))
+$$
+
+Similarly, for a given dataset, we would like to identify this probability density function which is usually very complex.
+
+To find the explicit PDF, we use normalizing flows, which uses the change of variable theorem. The basic idea is, given a dataset $\mathcal{D}={x_1, x_2, ...., x_d}$, we first gaussianize this distribution using conservation of mass theory.
+
+$$
+Given, x \sim p(x)
+$$
+
+We take a known, simple distribution $\pi(z)$ such as gaussian and try to gaussianize the original points $x$ to this distribution $\pi(z)$ using a series of transformation
+
+
+$$
+z = f(x), z \sim \pi(z)
+$$
+
+Then, by change of variables formula
+
+$$
+\begin{aligned}
+\int p(x)dx &= \int \pi(z)dz = 1\\
+p(x) &= \pi(z) |\frac{dz}{dx}| \\
+p(x) &= \pi(f(x)) |det \frac{df(x)}{dx}|\\
+log(p(x)) &= log(\pi(f(x))) + log|det \frac{df(x)}{dx}|
+\end{aligned}
+$$
+
+During inference, we sample from the simple gaussianized distribution and apply inverse transformation.
+
+## **14. Gradients**
+* Backpropogation is done by calculating the change in loss wrt small change in the associated weights. 
+* This $\frac{\delta \mathcal{L}}{\delta w_{ij}}$ is called the **gradient** of weight $w_{ij}$
+
+
+-------------------------------------------------------------------------------------------------\
+
+# **Notes**
+
+* Determinant of a triangular or diagonal matrix is easy to calculate.
+
 

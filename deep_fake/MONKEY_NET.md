@@ -44,7 +44,9 @@ $$
 
 * Use the $\textit{Visualizer.draw\_video\_with\_kp()}$ method of the $\textbf{logger.py}$ file to visualize the keypoints. The arguments should be of the size.\
 $\textbf{Video file}$: (32, 64, 64, 3)\
-$\textbf{kp\_array}$: (32, 2, 10, 2)
+$\textbf{kp\_array}$: (32, 10, 2)
+
+* To understand why hourglass architecture is used to identify keypoints, refer to [this](https://towardsdatascience.com/human-pose-estimation-with-stacked-hourglass-network-and-tensorflow-c4e9f84fd3ce)
 
 ### **Assumptions**
 
