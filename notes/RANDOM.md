@@ -214,9 +214,55 @@ $$
 
 During inference, we sample from the simple gaussianized distribution and apply inverse transformation.
 
+## **Points to remeber for flow based models**
+* We need $\frac{df(x)}{dx}$ to be invertible, because if $f(x)$ maps to same value of 2 different $x$, then the inverse of it would not be possible,
+
+* Auto-regressive and inverse auto-regressive models have slower inference and training time respectively. This is because they operate on per variable level. We move to more sophisticated methods which work on multiple high dimensional variables such as RealNVP, GLOW etc.
+
 ## **14. Gradients**
 * Backpropogation is done by calculating the change in loss wrt small change in the associated weights. 
 * This $\frac{\delta \mathcal{L}}{\delta w_{ij}}$ is called the **gradient** of weight $w_{ij}$
+
+## **15. Caveats of flow-based models**
+* *Discrete to continouos* : The images pixel values are discrete in the range $[0, 255]$. Since flow-based models are formulated on continuous values, we need to convert them to continuous values. Keep in mind that normalizing doesn't mean continuous (a silly note to myself). Therefore we apply the below formulation.
+
+For e.g., MNIST has 1 channel of maximum 255 pixel intensity which can be represented in 8 bits.
+Given, n_bits = 5, n_bins = $2^{n\_bits}$
+$$
+  x = \frac{x}{2^8} 
+$$
+$$
+  x = \frac{floor(x * n\_bins)}{n\_bins}
+$$
+$$
+  x = x - 0.5
+$$
+
+The above equation can be simplified as 
+$$
+  x = floor(\frac{x}{2^{8 - n\_bins}})
+$$
+$$
+  x = \frac{x}{n\_bins} - 0.5
+$$
+
+The [link](https://github.com/openai/glow/issues/51) provides further details
+
+* *Probability density -> Probability mass* : We need to convert the objective/loss provide the loss for the discrete image values rather than the continuous ones. To do that we add an additional integration term to the image which is given by **probability density at one point $\times$ volume**. 
+
+$$
+loss = -\log(n\_bins) \times total\_pixels
+$$
+
+More explanation [here](https://github.com/openai/glow/issues/43) and [here](https://arxiv.org/pdf/1511.01844.pdf)
+
+* *Converting log likelihood terms to bits per pixel*: Most papers use the bits-per-dimension metric to evaluate the generative models which are in log base $e$. The loss function of flow-based models are kind of NLL in log base $2$. We can convert them to bits-per-pixel using, by changing log base $e$ to base $2$ 
+
+$$
+  bits\_per\_pixel = \frac{(nll\_value)}{(num\_pixels \times log_2)}
+$$
+
+More explanation [here](https://stats.stackexchange.com/questions/423120/what-is-bits-per-dimension-bits-dim-exactly-in-pixel-cnn-papers/431012), [here](https://www.reddit.com/r/MachineLearning/comments/56m5o2/discussion_calculation_of_bitsdims/) and [here](https://arxiv.org/pdf/1705.07057.pdf)
 
 
 -------------------------------------------------------------------------------------------------\

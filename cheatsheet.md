@@ -5,6 +5,14 @@
 pandoc --to=pdf -o index.pdf test.md
 ```
 
+## Git commands
+1. To resync your local changes with remote repo
+```
+git fetch origin
+git reset --hard origin/master
+git clean -f -d
+```
+
 ## Openface docker commands
 
 1. To check if the openface docker process is running
@@ -72,6 +80,11 @@ rsync -av -e ssh --include='*/' --include='00*.jpg' --exclude='*' saandeepaath@g
 
  1. To reshape the pytorch tensor. DONOT convert the pytorch to numpy and then reshape. Instead, reshape with `permute` and then convert to numpy if required. Doing the former messes up the data representation.
 
+ 2. When using distributed computing, enclose your network with `nn.ModuleList` to avoid putting your network on CPU. 
+ 
+ 3. Any new tensor you create in your class will be automatically in CPU even though the model is in GPU. To overcome this issue just add your new tensor to `nn.Parameter` by initializing it using the `register_parameter` operation. if your new tensor initialization is in the forward method, then write a class function to initialize this tensor
+
+ 4. You can probably avoid pt 3 completely by initializing using `zeros_like` or `empty_like` methods.
 
 ## **Important VAe links**
 * To understand disentanglement: [link](https://towardsdatascience.com/disentangling-disentanglement-in-deep-learning-d405005c0741)
