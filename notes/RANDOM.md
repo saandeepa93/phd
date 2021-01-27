@@ -264,6 +264,17 @@ $$
 
 More explanation [here](https://stats.stackexchange.com/questions/423120/what-is-bits-per-dimension-bits-dim-exactly-in-pixel-cnn-papers/431012), [here](https://www.reddit.com/r/MachineLearning/comments/56m5o2/discussion_calculation_of_bitsdims/) and [here](https://arxiv.org/pdf/1705.07057.pdf)
 
+* *Bounded to unbounded distribution*
+The change of variables formula is applicable to unbounded distributions. But our image data after dequantization is bounded between the values [0, 1] or [0, 256]. To convert it to unbounded data distribution, we use inverse of sigmoid function which is called **logit**. It is defined as :
+
+$$
+logit(x) = \frac{x}{1-x}
+$$
+
+
+## **16. Conditional and Unconditional GANs**
+*Conditional* GANs make use of data labels to produce generative images. These are kind of supervised generative models. *Unconditional* GANs such as that of Goodfellow's does not need any labels and are unsupervised generative models.
+
 
 -------------------------------------------------------------------------------------------------\
 
