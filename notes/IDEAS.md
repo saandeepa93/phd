@@ -5,3 +5,5 @@
 3. When we want to model complex functions and transforamtion, we use a neural network.
 
 4. **Take the temporal representation of detected action unit and study how the rate of change of each action unit muscle causes the change in emotion.**
+
+5. Emotions more or less involves uncertainty in their signals. The KL divergence quantifies this uncertainty, find a way to use this information in affective computing.
